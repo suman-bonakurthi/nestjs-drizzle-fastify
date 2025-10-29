@@ -1,0 +1,35 @@
+{
+  // 1. Enable Format on Save globally
+  "editor.formatOnSave": true,
+
+  // 2. Set Biome as the default formatter for relevant languages
+  // This is crucial to ensure Biome handles formatting
+  "editor.defaultFormatter": "biomejs.biome",
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+
+  // 3. Enable Code Actions on Save for automatic fixes and import organization
+  "editor.codeActionsOnSave": {
+    // Apply safe lint fixes on save (equivalent to 'biome check --write')
+    "source.fixAll.biome": "explicit",
+
+    // Organise imports on save (equivalent to 'biome check --write')
+    "source.organizeImports.biome": "explicit"
+  }
+}

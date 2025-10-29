@@ -1,0 +1,171 @@
+Table "cities" {
+  "id" smallserial [pk, not null, increment]
+  "name" text [not null]
+  "country_id" integer
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    created_at [type: btree, name: "city_created_at_idx"]
+    name [type: btree, name: "city_name_idx"]
+  }
+}
+
+Table "contacts" {
+  "id" serial [pk, not null, increment]
+  "organization_id" integer
+  "full_name" text [not null]
+  "title" text [not null]
+  "email" text [not null]
+  "phone" text
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    title [unique, name: "contacts_title_unique"]
+    created_at [type: btree, name: "organization_created_at_idx"]
+    full_name [type: btree, name: "organization_name_idx"]
+    phone [type: btree, name: "organization_phone_idx"]
+    email [type: btree, name: "organization_email_idx"]
+  }
+}
+
+Table "countries" {
+  "id" smallserial [pk, not null, increment]
+  "name" text [not null]
+  "iso" text [not null]
+  "flag" text [not null]
+  "currency_id" integer
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    iso [unique, name: "countries_iso_unique"]
+    created_at [type: btree, name: "country_created_at_idx"]
+    name [type: btree, name: "country_name_idx"]
+    iso [type: btree, name: "country_iso_idx"]
+  }
+}
+
+Table "currencies" {
+  "id" smallserial [pk, not null, increment]
+  "name" text [not null]
+  "code" text [not null]
+  "symbol" text [not null]
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    code [unique, name: "currencies_code_unique"]
+    created_at [type: btree, name: "currency_created_at_idx"]
+    name [type: btree, name: "currency_name_idx"]
+    code [type: btree, name: "currency_code_idx"]
+  }
+}
+
+Table "languages" {
+  "id" smallserial [pk, not null, increment]
+  "country_id" integer
+  "name" text [not null]
+  "code" text [not null]
+  "native" text [not null]
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    code [unique, name: "languages_code_unique"]
+    created_at [type: btree, name: "language_created_at_idx"]
+    name [type: btree, name: "language_name_idx"]
+    code [type: btree, name: "language_code_idx"]
+    native [type: btree, name: "language_native_idx"]
+  }
+}
+
+Table "locations" {
+  "id" smallserial [pk, not null, increment]
+  "organization_id" integer [not null]
+  "address" text [not null]
+  "title" text [not null]
+  "city_id" integer [not null]
+  "postal_code" text [not null]
+  "is_primary" boolean [not null, default: false]
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    is_primary [type: btree, name: "locations_is_primary_idx"]
+    postal_code [type: btree, name: "locations_postal_code_idx"]
+  }
+}
+
+Table "organization_users" {
+  "organization_id" integer [not null]
+  "user_id" uuid [not null]
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    (organization_id, user_id) [pk, name: "organization_users_organization_id_user_id_pk"]
+  }
+}
+
+Table "organizations" {
+  "id" serial [pk, not null, increment]
+  "country_id" integer
+  "name" text [not null]
+  "phone" text [not null]
+  "email" text [not null]
+  "url" text
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    phone [unique, name: "organizations_phone_unique"]
+    created_at [type: btree, name: "entity_created_at_idx"]
+    name [type: btree, name: "entity_name_idx"]
+    phone [type: btree, name: "entity_phone_idx"]
+    email [type: btree, name: "entity_email_idx"]
+  }
+}
+
+Table "users" {
+  "id" uuid [pk, not null, default: `gen_random_uuid()`]
+  "user_name" text [not null]
+  "email" text [not null]
+  "password" text [not null]
+  "created_at" timestamp [not null, default: `now()`]
+  "updated_at" timestamp [not null]
+  "deleted_at" timestamp
+
+  Indexes {
+    user_name [unique, name: "users_userName_unique"]
+    email [unique, name: "users_email_unique"]
+    created_at [type: btree, name: "users_created_at_idx"]
+  }
+}
+
+Ref "cities_country_id_countries_id_fk":"countries"."id" < "cities"."country_id" [update: no action, delete: no action]
+
+Ref "contacts_organization_id_organizations_id_fk":"organizations"."id" < "contacts"."organization_id" [update: no action, delete: no action]
+
+Ref "countries_currency_id_currencies_id_fk":"currencies"."id" < "countries"."currency_id" [update: no action, delete: no action]
+
+Ref "languages_country_id_countries_id_fk":"countries"."id" < "languages"."country_id" [update: no action, delete: no action]
+
+Ref "locations_organization_id_organizations_id_fk":"organizations"."id" < "locations"."organization_id" [update: no action, delete: cascade]
+
+Ref "locations_city_id_cities_id_fk":"cities"."id" < "locations"."city_id" [update: no action, delete: cascade]
+
+Ref "organization_users_organization_id_organizations_id_fk":"organizations"."id" < "organization_users"."organization_id" [update: no action, delete: no action]
+
+Ref "organization_users_user_id_users_id_fk":"users"."id" < "organization_users"."user_id" [update: no action, delete: no action]
+
+Ref "organizations_country_id_countries_id_fk":"countries"."id" < "organizations"."country_id" [update: no action, delete: no action]
