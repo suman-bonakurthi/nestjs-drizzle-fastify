@@ -1,7 +1,7 @@
 CREATE TABLE "cities" (
 	"id" "smallserial" PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
-	"country_id" integer,
+	"country_id" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp NOT NULL,
 	"deleted_at" timestamp
@@ -9,11 +9,11 @@ CREATE TABLE "cities" (
 --> statement-breakpoint
 CREATE TABLE "contacts" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"organization_id" integer,
+	"organization_id" integer NOT NULL,
 	"full_name" text NOT NULL,
 	"title" text NOT NULL,
 	"email" text NOT NULL,
-	"phone" text,
+	"phone" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp NOT NULL,
 	"deleted_at" timestamp,
@@ -25,7 +25,7 @@ CREATE TABLE "countries" (
 	"name" text NOT NULL,
 	"iso" text NOT NULL,
 	"flag" text NOT NULL,
-	"currency_id" integer,
+	"currency_id" integer NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp NOT NULL,
 	"deleted_at" timestamp,
@@ -45,7 +45,7 @@ CREATE TABLE "currencies" (
 --> statement-breakpoint
 CREATE TABLE "languages" (
 	"id" "smallserial" PRIMARY KEY NOT NULL,
-	"country_id" integer,
+	"country_id" integer NOT NULL,
 	"name" text NOT NULL,
 	"code" text NOT NULL,
 	"native" text NOT NULL,

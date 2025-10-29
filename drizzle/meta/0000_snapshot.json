@@ -1,5 +1,5 @@
 {
-  "id": "7fdd8404-bab6-478f-840e-ee6223212f5f",
+  "id": "f0ed1a1a-f8d6-48dc-9796-1871b964e11c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -24,7 +24,7 @@
           "name": "country_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -113,7 +113,7 @@
           "name": "organization_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "full_name": {
           "name": "full_name",
@@ -137,7 +137,7 @@
           "name": "phone",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -282,7 +282,7 @@
           "name": "currency_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -504,7 +504,7 @@
           "name": "country_id",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "name": {
           "name": "name",
